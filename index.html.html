@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>MANQOBA MOTIVATES</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@200;300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+:root{
+  --gold:#D4A017;--gold2:#F5C842;--gold-dim:rgba(212,160,23,.1);--gold-glow:rgba(212,160,23,.22);
+  --bg:#050505;--bg2:#090909;--bg3:#0f0f0f;--bg4:#161616;
+  --white:#F0EBE3;--grey:#686868;--grey2:#ABABAB;
+  --fd:'Bebas Neue',sans-serif;--fb:'Outfit',sans-serif;--fc:'Great Vibes',cursive;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{background:var(--bg);color:var(--white);font-family:var(--fb);overflow-x:hidden;cursor:none;}
+a{text-decoration:none;color:inherit;cursor:none;}
+strong{color:var(--gold);font-weight:700;}
+
+/* NOISE */
+body::before{content:'';position:fixed;inset:0;z-index:9000;pointer-events:none;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:160px;}
+
+/* CURSOR */
+.cur{position:fixed;width:9px;height:9px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:10000;transform:translate(-50%,-50%);mix-blend-mode:difference;}
+.cur-ring{position:fixed;width:38px;height:38px;border:1px solid rgba(212,160,23,.55);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .35s,height .35s,border-color .35s,opacity .35s;}
+.cur-ring.expand{width:60px;height:60px;border-color:var(--gold);opacity:.6;}
+.cur-ring.click{width:20px;height:20px;}
+
+/* LOADER */
+#ldr{position:fixed;inset:0;z-index:99999;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;transition:opacity .8s,visibility .8s;}
+#ldr.gone{opacity:0;visibility:hidden;pointer-events:none;}
+.ldr-logo{font-family:var(--fd);font-size:2.4rem;letter-spacing:8px;overflow:hidden;}
+.ldr-logo span{color:var(--gold);}
+.ldr-track{width:180px;height:1px;background:rgba(212,160,23,.18);}
+.ldr-fill{height:100%;background:var(--gold);width:0;animation:ldrAnim 2s var(--ease) forwards;}
+.ldr-pct{font-size:.6rem;letter-spacing:4px;color:var(--grey);margin-top:6px;}
+@keyframes ldrAnim{to{width:100%;}}
+
+/* SCROLL BAR */
+#spbar{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold2));z-index:9998;width:0;transition:width .08s linear;}
+
+/* PARTICLES CANVAS */
+#particles{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.5;}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .8s var(--ease),transform .8s var(--ease);}
+.reveal.from-left{transform:translateX(-36px);}
+.reveal.from-right{transform:translateX(36px);}
+.reveal.from-scale{transform:scale(.93);}
+.reveal.visible{opacity:1;transform:none;}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--fb);font-weight:700;font-size:.8rem;letter-spacing:2.5px;text-transform:uppercase;cursor:none;border:none;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;}
+.btn-gold{background:var(--gold);color:var(--bg);padding:16px 40px;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));}
+.btn-gold::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.12);opacity:0;transition:opacity .3s;}
+.btn-gold:hover{background:var(--gold2);transform:translateY(-4px);box-shadow:0 24px 48px rgba(212,160,23,.35);}
+.btn-gold:hover::after{opacity:1;}
+.btn-ghost{background:transparent;color:var(--white);padding:16px 40px;border:1px solid rgba(255,255,255,.16);}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-dim);transform:translateY(-4px);}
+.btn-full{width:100%;justify-content:center;}
+
+/* TYPOGRAPHY */
+.label{font-size:.62rem;letter-spacing:5px;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.label::before{content:'';width:30px;height:1px;background:var(--gold);flex-shrink:0;}
+.h2{font-family:var(--fd);font-size:clamp(2.8rem,5.5vw,4.6rem);line-height:.93;letter-spacing:1px;margin-bottom:22px;}
+.gold{color:var(--gold);}
+.hollow{-webkit-text-stroke:1.5px var(--gold);color:transparent;}
+.body{color:var(--grey2);font-weight:300;font-size:.97rem;line-height:1.92;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:26px 68px;display:flex;align-items:center;justify-content:space-between;transition:padding .4s,background .4s,backdrop-filter .4s;}
+nav.stuck{padding:14px 68px;background:rgba(5,5,5,.92);backdrop-filter:blur(18px);border-bottom:1px solid rgba(212,160,23,.07);}
+.nav-brand{display:flex;align-items:center;gap:14px;}
+.nav-logo{font-family:var(--fd);font-size:1.35rem;letter-spacing:5px;}
+.nav-logo em{color:var(--gold);font-style:normal;}
+.nav-live{display:flex;align-items:center;gap:7px;padding:5px 13px;border:1px solid rgba(212,160,23,.28);background:var(--gold-dim);font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
+.nav-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:blink 1.8s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
+.nav-links{display:flex;list-style:none;gap:42px;align-items:center;}
+.nav-a{font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--grey);transition:color .3s;position:relative;}
+.nav-a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .3s;}
+.nav-a:hover{color:var(--gold);}
+.nav-a:hover::after{transform:scaleX(1);}
+.nav-cta{color:var(--bg)!important;background:var(--gold);padding:9px 24px;font-weight:700;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));}
+.nav-cta:hover{background:var(--gold2)!important;}
+.nav-cta::after{display:none!important;}
+.burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:none;padding:4px;}
+.burger span{display:block;width:24px;height:2px;background:var(--white);transition:transform .3s,opacity .3s;}
+.burger.x span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+.burger.x span:nth-child(2){opacity:0;}
+.burger.x span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
+
+/* HERO */
+.hero{min-height:100svh;display:flex;align-items:center;padding:140px 68px 90px;position:relative;overflow:hidden;z-index:2;}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(212,160,23,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(212,160,23,.022) 1px,transparent 1px);background-size:68px 68px;z-index:0;}
+.hero-glow{position:absolute;top:5%;right:-5%;width:800px;height:800px;background:radial-gradient(circle,rgba(212,160,23,.065) 0%,transparent 60%);pointer-events:none;z-index:0;animation:floatGlow 8s ease-in-out infinite;}
+@keyframes floatGlow{0%,100%{transform:translate(0,0);}50%{transform:translate(-30px,20px);}}
+.hero-content{position:relative;z-index:3;max-width:750px;}
+.hero-tag{display:inline-flex;align-items:center;gap:10px;padding:8px 20px;border:1px solid rgba(212,160,23,.22);background:rgba(212,160,23,.06);font-size:.65rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:36px;}
+.hero-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:blink 1.8s infinite;}
+.hero-title{font-family:var(--fd);font-size:clamp(5.5rem,12vw,11rem);line-height:.82;letter-spacing:2px;}
+.hero-cursive{font-family:var(--fc);font-size:clamp(3.5rem,7vw,7rem);color:var(--gold);-webkit-text-stroke:0;display:block;line-height:1.1;margin-top:-6px;}
+.hero-sub{margin-top:32px;max-width:520px;color:var(--grey2);font-size:1.02rem;font-weight:300;line-height:1.88;}
+.hero-actions{margin-top:52px;display:flex;gap:18px;flex-wrap:wrap;align-items:center;}
+.hero-stats{position:absolute;right:68px;bottom:90px;z-index:3;display:flex;flex-direction:column;gap:30px;align-items:flex-end;}
+.hs{text-align:right;}
+.hs-n{font-family:var(--fd);font-size:3.4rem;color:var(--gold);line-height:1;}
+.hs-p{font-family:var(--fd);font-size:2.4rem;color:var(--gold);}
+.hs-l{display:block;font-size:.6rem;letter-spacing:3.5px;text-transform:uppercase;color:var(--grey);margin-top:2px;}
+.hs-div{width:48px;height:1px;background:rgba(212,160,23,.2);align-self:flex-end;}
+.hero-scroll{position:absolute;bottom:36px;left:68px;z-index:3;display:flex;align-items:center;gap:14px;font-size:.62rem;letter-spacing:4px;text-transform:uppercase;color:var(--grey);}
+.hero-scroll-line{width:42px;height:1px;background:linear-gradient(to right,var(--gold),transparent);animation:pulse2 2s infinite;}
+@keyframes pulse2{0%,100%{opacity:1;transform:scaleX(1);}50%{opacity:.4;transform:scaleX(.6);}}
+
+/* MARQUEE */
+.mq{background:var(--gold);padding:15px 0;overflow:hidden;white-space:nowrap;position:relative;z-index:2;}
+.mq-track{display:inline-block;animation:mq 24s linear infinite;}
+.mq-track span{font-family:var(--fd);font-size:.88rem;letter-spacing:5px;color:var(--bg);}
+@keyframes mq{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* ABOUT */
+.about{padding:130px 68px;display:grid;grid-template-columns:1fr 1fr;gap:56px 96px;align-items:center;background:var(--bg2);position:relative;overflow:hidden;z-index:2;}
+.about-watermark{position:absolute;font-family:var(--fd);font-size:clamp(7rem,14vw,14rem);color:rgba(255,255,255,.016);letter-spacing:14px;top:16px;left:36px;pointer-events:none;white-space:nowrap;}
+.about-visual{position:relative;display:flex;justify-content:center;}
+.aframe{width:300px;height:380px;background:var(--bg3);border:1px solid rgba(212,160,23,.16);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.aframe-glow{position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(212,160,23,.06) 0%,transparent 65%);}
+.aframe-initials{font-family:var(--fc);font-size:7.5rem;color:transparent;-webkit-text-stroke:1px rgba(212,160,23,.65);user-select:none;line-height:1;position:relative;z-index:1;}
+.fc{position:absolute;width:22px;height:22px;border-color:var(--gold);border-style:solid;}
+.fc.tl{top:-1px;left:-1px;border-width:2px 0 0 2px;}
+.fc.tr{top:-1px;right:-1px;border-width:2px 2px 0 0;}
+.fc.bl{bottom:-1px;left:-1px;border-width:0 0 2px 2px;}
+.fc.br{bottom:-1px;right:-1px;border-width:0 2px 2px 0;}
+.aframe-side{position:absolute;right:-44px;top:50%;transform:translateY(-50%) rotate(90deg);font-size:.56rem;letter-spacing:5px;text-transform:uppercase;color:rgba(212,160,23,.35);white-space:nowrap;}
+.about-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px;}
+.pill{background:var(--bg4);border:1px solid rgba(212,160,23,.16);color:var(--grey2);font-size:.74rem;padding:7px 16px;letter-spacing:.5px;transition:border-color .3s,color .3s,background .3s;}
+.pill:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-dim);}
+
+/* NUMBERS */
+.nums{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;z-index:2;}
+.num{background:var(--gold);padding:48px 36px;text-align:center;position:relative;}
+.num::after{content:'';position:absolute;right:0;top:18%;bottom:18%;width:1px;background:rgba(0,0,0,.13);}
+.num:last-child::after{display:none;}
+.num-v{font-family:var(--fd);font-size:5rem;color:var(--bg);line-height:1;}
+.num-sym{font-family:var(--fd);font-size:3.2rem;color:var(--bg);}
+.num-l{font-size:.62rem;letter-spacing:4px;text-transform:uppercase;color:rgba(0,0,0,.55);margin-top:5px;display:block;font-weight:600;}
+
+/* SERVICES */
+.services{padding:130px 68px;background:var(--bg);z-index:2;position:relative;}
+.svc-head{margin-bottom:70px;}
+.svc-sub{color:var(--grey);font-size:.93rem;font-weight:300;margin-top:6px;}
+.svc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:3px;}
+.sc{background:var(--bg3);padding:54px 46px;position:relative;overflow:hidden;border:1px solid transparent;transition:border-color .35s,transform .35s,background .35s;}
+.sc::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--gold),transparent);transform:scaleX(0);transform-origin:left;transition:transform .4s;}
+.sc::after{content:'';position:absolute;top:0;right:0;width:0;height:0;border-left:50px solid transparent;border-top:50px solid rgba(212,160,23,.05);transition:border-top-color .35s;}
+.sc:hover{border-color:rgba(212,160,23,.14);transform:translateY(-6px);background:var(--bg4);}
+.sc:hover::before{transform:scaleX(1);}
+.sc:hover::after{border-top-color:rgba(212,160,23,.1);}
+.sc-num{font-family:var(--fd);font-size:4.5rem;color:rgba(212,160,23,.07);line-height:1;margin-bottom:12px;}
+.sc-icon{font-size:2.2rem;margin-bottom:18px;}
+.sc-title{font-family:var(--fd);font-size:1.85rem;letter-spacing:1px;margin-bottom:14px;}
+.sc-desc{color:var(--grey);font-size:.87rem;line-height:1.88;font-weight:300;}
+.sc-arrow{margin-top:28px;color:var(--gold);font-size:1.3rem;opacity:0;transform:translateX(-10px);transition:opacity .3s,transform .3s;}
+.sc:hover .sc-arrow{opacity:1;transform:translateX(0);}
+
+/* TESTIMONIALS */
+.testi{padding:130px 68px;background:var(--bg2);z-index:2;position:relative;}
+.testi-head{text-align:center;margin-bottom:76px;}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+.tc{background:var(--bg3);border:1px solid rgba(212,160,23,.07);padding:46px 36px;position:relative;overflow:hidden;transition:border-color .3s,transform .3s;}
+.tc::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(212,160,23,.3),transparent);transform:scaleX(0);transition:transform .5s;}
+.tc:hover{border-color:rgba(212,160,23,.25);transform:translateY(-5px);}
+.tc:hover::before{transform:scaleX(1);}
+.tc-q{font-family:var(--fd);font-size:5.5rem;color:rgba(212,160,23,.1);line-height:.55;margin-bottom:16px;}
+.tc-stars{color:var(--gold);font-size:.75rem;letter-spacing:4px;margin-bottom:14px;}
+.tc-text{color:var(--grey2);font-size:.91rem;line-height:1.92;font-weight:300;font-style:italic;margin-bottom:28px;}
+.tc-author{display:flex;align-items:center;gap:14px;}
+.tc-av{width:42px;height:42px;background:var(--gold-dim);border:1px solid rgba(212,160,23,.28);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.74rem;color:var(--gold);flex-shrink:0;}
+.tc-name{display:block;font-size:.87rem;font-weight:600;}
+.tc-role{font-size:.68rem;color:var(--grey);letter-spacing:1px;}
+
+/* CONTACT */
+.contact{padding:130px 68px;background:var(--bg);z-index:2;position:relative;}
+.contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:84px;align-items:start;}
+.contact-details{margin-top:38px;display:flex;flex-direction:column;gap:16px;}
+.ci{display:flex;align-items:center;gap:18px;padding:20px 24px;background:var(--bg3);border:1px solid rgba(212,160,23,.08);transition:border-color .3s,transform .3s;cursor:none;}
+.ci:hover{border-color:rgba(212,160,23,.32);transform:translateX(6px);}
+.ci-icon{width:44px;height:44px;background:var(--gold-dim);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex-shrink:0;}
+.ci-label{display:block;font-size:.62rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--grey);margin-bottom:4px;}
+.ci-val{display:block;font-size:.9rem;font-weight:500;}
+.cform{display:flex;flex-direction:column;gap:18px;}
+.crow{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.fg{display:flex;flex-direction:column;gap:7px;}
+.fg label{font-size:.62rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--grey);}
+.fg input,.fg select,.fg textarea{background:var(--bg3);border:1px solid rgba(255,255,255,.07);color:var(--white);font-family:var(--fb);font-size:.92rem;padding:14px 18px;outline:none;resize:none;-webkit-appearance:none;border-radius:0;cursor:none;transition:border-color .3s,background .3s;}
+.fg select option{background:var(--bg3);}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--gold);background:var(--bg4);}
+.fg input::placeholder,.fg textarea::placeholder{color:var(--grey);}
+.fsuccess{display:none;padding:14px;text-align:center;font-size:.84rem;color:var(--gold);background:var(--gold-dim);border:1px solid rgba(212,160,23,.22);}
+.fsuccess.show{display:block;}
+
+/* FOOTER */
+.footer{background:var(--bg2);border-top:1px solid rgba(212,160,23,.07);padding:62px 68px 30px;z-index:2;position:relative;}
+.footer-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:22px;margin-bottom:46px;}
+.footer-logo{font-family:var(--fd);font-size:1.7rem;letter-spacing:5px;}
+.footer-logo em{color:var(--gold);font-style:normal;}
+.footer-tagline{font-family:var(--fc);font-size:1.6rem;color:rgba(212,160,23,.45);}
+.footer-social{display:flex;gap:12px;}
+.soc{width:40px;height:40px;border:1px solid rgba(212,160,23,.18);display:flex;align-items:center;justify-content:center;font-size:.72rem;color:var(--grey);transition:all .3s;cursor:none;font-weight:700;}
+.soc:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-dim);}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.04);padding-top:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:.7rem;color:var(--grey);letter-spacing:1px;}
+
+/* BACK TO TOP */
+#btt{position:fixed;bottom:34px;right:34px;width:44px;height:44px;background:var(--gold);color:var(--bg);border:none;cursor:none;font-size:1rem;font-weight:700;display:flex;align-items:center;justify-content:center;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));opacity:0;transform:translateY(14px);transition:opacity .3s,transform .3s,background .3s;z-index:400;}
+#btt.show{opacity:1;transform:translateY(0);}
+#btt:hover{background:var(--gold2);}
+
+/* MOBILE */
+@media(max-width:768px){
+  body{cursor:auto;}
+  .cur,.cur-ring{display:none;}
+  nav{padding:18px 22px;}
+  nav.stuck{padding:12px 22px;}
+  .burger{display:flex;}
+  .nav-links{position:fixed;top:0;right:0;width:min(290px,80vw);height:100vh;background:rgba(5,5,5,.97);backdrop-filter:blur(20px);flex-direction:column;justify-content:center;align-items:flex-start;padding:60px 34px;gap:28px;transform:translateX(100%);transition:transform .4s var(--ease);border-left:1px solid rgba(212,160,23,.08);}
+  .nav-links.open{transform:translateX(0);}
+  .hero{padding:100px 22px 130px;}
+  .hero-stats{display:none;}
+  .hero-scroll{left:22px;}
+  .about{grid-template-columns:1fr;padding:80px 22px;gap:44px;}
+  .about-watermark{display:none;}
+  .aframe{width:240px;height:310px;margin:0 auto;}
+  .aframe-side{display:none;}
+  .nums{grid-template-columns:repeat(2,1fr);}
+  .services,.testi,.contact{padding:80px 22px;}
+  .svc-grid{grid-template-columns:1fr;}
+  .testi-grid{grid-template-columns:1fr;}
+  .contact-inner{grid-template-columns:1fr;gap:46px;}
+  .crow{grid-template-columns:1fr;}
+  .footer{padding:40px 22px 22px;}
+  .footer-top{flex-direction:column;align-items:flex-start;}
+  .footer-bottom{flex-direction:column;}
+  #btt{display:none;}
+}
+@media(max-width:1100px){
+  nav{padding:20px 38px;}
+  nav.stuck{padding:13px 38px;}
+  .hero{padding:120px 38px 100px;}
+  .hero-stats{right:38px;}
+  .hero-scroll{left:38px;}
+  .about,.services,.testi,.contact{padding:100px 38px;}
+  .footer{padding:52px 38px 28px;}
+  .nums{padding:0;}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="ldr">
+  <div class="ldr-logo">MANQOBA <span>MOTIVATES</span></div>
+  <div class="ldr-track"><div class="ldr-fill"></div></div>
+  <div class="ldr-pct" id="ldrPct">0%</div>
+</div>
+
+<!-- SCROLL PROGRESS -->
+<div id="spbar"></div>
+
+<!-- CANVAS PARTICLES -->
+<canvas id="particles"></canvas>
+
+<!-- CURSOR -->
+<div class="cur" id="cur"></div>
+<div class="cur-ring" id="curRing"></div>
+
+<!-- BACK TO TOP -->
+<button id="btt" aria-label="Top">↑</button>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-brand">
+    <div class="nav-logo">MANQOBA <em>MOTIVATES</em></div>
+    <div class="nav-live"><span class="nav-dot"></span> Available for Bookings</div>
+  </div>
+  <button class="burger" id="burger"><span></span><span></span><span></span></button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home" class="nav-a">Home</a></li>
+    <li><a href="#about" class="nav-a">About</a></li>
+    <li><a href="#services" class="nav-a">Services</a></li>
+    <li><a href="#testimonials" class="nav-a">Words</a></li>
+    <li><a href="#contact" class="nav-a nav-cta">Book Me</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-tag reveal" data-delay="0"><span class="hero-tag-dot"></span> Youth Speaker · Entrepreneur · South Africa</div>
+    <h1 class="hero-title reveal" data-delay="120">
+      YOUR<br/>
+      <span class="hollow">FUTURE</span><br/>
+      <em class="hero-cursive">Starts Now</em>
+    </h1>
+    <p class="hero-sub reveal" data-delay="240">I'm <strong>Manqoba Ndimande</strong> — a 17-year-old entrepreneur and public speaker on a mission to ignite the fire inside every young person ready to claim their success.</p>
+    <div class="hero-actions reveal" data-delay="360">
+      <a href="#contact" class="btn btn-gold">Book a Talk →</a>
+      <a href="#about" class="btn btn-ghost">My Story</a>
+    </div>
+  </div>
+  <div class="hero-stats reveal from-right" data-delay="400">
+    <div class="hs"><span class="hs-n" data-count="17">0</span><span class="hs-l">Years Old</span></div>
+    <div class="hs-div"></div>
+    <div class="hs"><span class="hs-n" data-count="50">0</span><span class="hs-p">+</span><span class="hs-l">Talks Given</span></div>
+    <div class="hs-div"></div>
+    <div class="hs"><span class="hs-n" data-count="1000">0</span><span class="hs-p">+</span><span class="hs-l">Lives Touched</span></div>
+  </div>
+  <div class="hero-scroll"><div class="hero-scroll-line"></div><span>Scroll</span></div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq">
+  <div class="mq-track"><span>BELIEVE IN YOURSELF &nbsp;✦&nbsp; START BEFORE YOU'RE READY &nbsp;✦&nbsp; YOUR AGE IS YOUR POWER &nbsp;✦&nbsp; GREATNESS IS A CHOICE &nbsp;✦&nbsp; IGNITE YOUR POTENTIAL &nbsp;✦&nbsp; BELIEVE IN YOURSELF &nbsp;✦&nbsp; START BEFORE YOU'RE READY &nbsp;✦&nbsp; YOUR AGE IS YOUR POWER &nbsp;✦&nbsp; GREATNESS IS A CHOICE &nbsp;✦&nbsp; IGNITE YOUR POTENTIAL &nbsp;✦&nbsp;</span></div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-watermark">About</div>
+  <div class="about-visual reveal from-left">
+    <div class="aframe">
+      <div class="aframe-glow"></div>
+      <div class="fc tl"></div><div class="fc tr"></div><div class="fc bl"></div><div class="fc br"></div>
+      <div class="aframe-initials">MN</div>
+    </div>
+    <div class="aframe-side">Manqoba Ndimande · Speaker · Entrepreneur</div>
+  </div>
+  <div class="reveal from-right" data-delay="100">
+    <p class="label">Who I Am</p>
+    <h2 class="h2">More Than<br/>Just <span class="gold">A Speaker</span></h2>
+    <p class="body">At 17, I've already learned what most people spend decades figuring out — <strong>success is not given, it is built.</strong> I'm an entrepreneur, a motivational speaker, and living proof that age is never a barrier to greatness.</p>
+    <p class="body" style="margin-top:16px;">My mission: walk into rooms full of young people and walk out having changed the way they see themselves. I speak at schools, youth events, and community gatherings — delivering raw, real, powerful messages that stick.</p>
+    <div class="about-tags">
+      <span class="pill">🎤 Public Speaker</span>
+      <span class="pill">💼 Entrepreneur</span>
+      <span class="pill">🔥 Youth Motivator</span>
+      <span class="pill">⚡ Leader</span>
+    </div>
+  </div>
+</section>
+
+<!-- NUMBERS -->
+<div class="nums">
+  <div class="num"><div><span class="num-v" data-count="17">0</span></div><span class="num-l">Years Old</span></div>
+  <div class="num"><div><span class="num-v" data-count="50">0</span><span class="num-sym">+</span></div><span class="num-l">Talks Delivered</span></div>
+  <div class="num"><div><span class="num-v" data-count="1000">0</span><span class="num-sym">+</span></div><span class="num-l">Lives Touched</span></div>
+  <div class="num"><div><span class="num-v" data-count="100">0</span><span class="num-sym">%</span></div><span class="num-l">Commitment</span></div>
+</div>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="svc-head reveal">
+    <p class="label">What I Offer</p>
+    <h2 class="h2">How I Can <span class="gold">Help You</span></h2>
+    <p class="svc-sub">Whether it's your school, event, or organisation — I bring energy, wisdom, and transformation.</p>
+  </div>
+  <div class="svc-grid">
+    <div class="sc reveal" data-delay="0"><div class="sc-num">01</div><div class="sc-icon">🎤</div><h3 class="sc-title">Motivational Speaking</h3><p class="sc-desc">High-energy talks at schools, churches, youth camps, and corporate events. Messages that cut through noise and reach young hearts directly.</p><div class="sc-arrow">→</div></div>
+    <div class="sc reveal" data-delay="100"><div class="sc-num">02</div><div class="sc-icon">🧠</div><h3 class="sc-title">Mindset Workshops</h3><p class="sc-desc">Interactive workshops on entrepreneurial thinking, goal setting, and breaking the limits young people place on themselves. Practical. Powerful. Life-changing.</p><div class="sc-arrow">→</div></div>
+    <div class="sc reveal" data-delay="200"><div class="sc-num">03</div><div class="sc-icon">💡</div><h3 class="sc-title">Youth Mentorship</h3><p class="sc-desc">One-on-one and group mentorship for young people building businesses, finding purpose, and taking bold action toward their goals.</p><div class="sc-arrow">→</div></div>
+    <div class="sc reveal" data-delay="300"><div class="sc-num">04</div><div class="sc-icon">🚀</div><h3 class="sc-title">Entrepreneurship Talks</h3><p class="sc-desc">From idea to execution — real entrepreneurship lessons from my own journey, helping young people start, build, and grow their dreams.</p><div class="sc-arrow">→</div></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi" id="testimonials">
+  <div class="testi-head reveal">
+    <p class="label" style="justify-content:center;">Testimonials</p>
+    <h2 class="h2">What People <span class="gold">Say</span></h2>
+  </div>
+  <div class="testi-grid">
+    <div class="tc reveal" data-delay="0"><div class="tc-q">"</div><div class="tc-stars">★★★★★</div><p class="tc-text">Manqoba spoke at our school and every single student was on the edge of their seat. He speaks with a fire you rarely see. The whole hall was changed after that day.</p><div class="tc-author"><div class="tc-av">SK</div><div><span class="tc-name">S. Khumalo</span><span class="tc-role">School Principal</span></div></div></div>
+    <div class="tc reveal" data-delay="120"><div class="tc-q">"</div><div class="tc-stars">★★★★★</div><p class="tc-text">I've heard many motivational speakers. Manqoba is different — he doesn't just talk, he makes you feel like you can conquer anything. Truly gifted at 17.</p><div class="tc-author"><div class="tc-av">NM</div><div><span class="tc-name">N. Mthembu</span><span class="tc-role">Event Organiser</span></div></div></div>
+    <div class="tc reveal" data-delay="240"><div class="tc-q">"</div><div class="tc-stars">★★★★★</div><p class="tc-text">After his workshop, I finally started the business I'd been dreaming about for 2 years. His energy and belief in us was exactly what I needed. Thank you, Manqoba.</p><div class="tc-author"><div class="tc-av">TZ</div><div><span class="tc-name">T. Zulu</span><span class="tc-role">Young Entrepreneur</span></div></div></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div class="reveal from-left">
+      <p class="label">Get In Touch</p>
+      <h2 class="h2">Let's Work<br/><span class="gold">Together</span></h2>
+      <p class="body">Ready to bring powerful energy to your event? Book Manqoba today — whether it's a school, corporate event, or youth gathering, let's make it unforgettable.</p>
+      <div class="contact-details">
+        <a href="/cdn-cgi/l/email-protection#503d313e213f32313e34393d313e343510373d31393c7e333f3d" class="ci"><div class="ci-icon">✉</div><div><span class="ci-label">Email</span><span class="ci-val"><span class="__cf_email__" data-cfemail="afc2cec1dec0cdcec1cbc6c2cec1cbcaefc8c2cec6c381ccc0c2">[email&#160;protected]</span></span></div></a>
+        <a href="tel:0788026085" class="ci"><div class="ci-icon">📞</div><div><span class="ci-label">Phone / WhatsApp</span><span class="ci-val">078 802 6085</span></div></a>
+      </div>
+    </div>
+    <div class="reveal from-right" data-delay="100">
+      <form class="cform" id="cform">
+        <div class="crow">
+          <div class="fg"><label for="name">Your Name</label><input type="text" id="name" placeholder="Full Name" required/></div>
+          <div class="fg"><label for="email">Email Address</label><input type="email" id="email" placeholder="your@email.com" required/></div>
+        </div>
+        <div class="fg"><label for="event">Event Type</label>
+          <select id="event"><option value="">Select event type...</option><option>School Talk</option><option>Youth Event</option><option>Corporate Event</option><option>Workshop</option><option>Other</option></select>
+        </div>
+        <div class="fg"><label for="msg">Your Message</label><textarea id="msg" rows="5" placeholder="Tell me about your event..."></textarea></div>
+        <button type="submit" class="btn btn-gold btn-full">Send Message 🔥</button>
+        <div class="fsuccess" id="fsuccess">✅ Message sent! I'll get back to you soon.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-top">
+    <div class="footer-logo">MANQOBA <em>MOTIVATES</em></div>
+    <div class="footer-tagline">Igniting a generation.</div>
+    <div class="footer-social">
+      <a href="#" class="soc">IG</a>
+      <a href="#" class="soc">FB</a>
+      <a href="https://wa.me/27788026085" class="soc">WA</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Manqoba Motivates. All rights reserved.</span>
+    <span>Built with 🔥 by Manqoba Ndimande</span>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ─ EMAILJS ─ */
+emailjs.init({publicKey:"w16ljGSzJDbWOZU0e"});
+
+/* ─ LOADER with counting % ─ */
+(function(){
+  const ldr=document.getElementById('ldr');
+  const pct=document.getElementById('ldrPct');
+  let n=0;
+  const t=setInterval(()=>{
+    n+=Math.random()*8+4;
+    if(n>=100){n=100;clearInterval(t);setTimeout(()=>ldr.classList.add('gone'),300);}
+    pct.textContent=Math.floor(n)+'%';
+  },80);
+})();
+
+/* ─ PARTICLES ─ */
+(function(){
+  const c=document.getElementById('particles');
+  const ctx=c.getContext('2d');
+  let W,H,pts=[];
+  function resize(){W=c.width=innerWidth;H=c.height=innerHeight;}
+  resize();window.addEventListener('resize',resize);
+  const N=60;
+  for(let i=0;i<N;i++) pts.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,r:Math.random()*1.5+.5});
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1;
+      if(p.y<0||p.y>H)p.vy*=-1;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(212,160,23,.45)';ctx.fill();
+    });
+    // connect nearby
+    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
+      const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<120){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(212,160,23,${.18*(1-d/120)})`;ctx.lineWidth=.6;ctx.stroke();}
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ─ SCROLL PROGRESS ─ */
+(function(){
+  const b=document.getElementById('spbar');
+  window.addEventListener('scroll',()=>{b.style.width=(scrollY/(document.body.scrollHeight-innerHeight)*100)+'%';},{passive:true});
+})();
+
+/* ─ CURSOR ─ */
+(function(){
+  const c=document.getElementById('cur'),r=document.getElementById('curRing');
+  if(!c||!r)return;
+  let mx=0,my=0,tx=0,ty=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;c.style.left=mx+'px';c.style.top=my+'px';});
+  document.addEventListener('mousedown',()=>r.classList.add('click'));
+  document.addEventListener('mouseup',()=>r.classList.remove('click'));
+  (function anim(){tx+=(mx-tx)*.1;ty+=(my-ty)*.1;r.style.left=tx+'px';r.style.top=ty+'px';requestAnimationFrame(anim);})();
+  document.querySelectorAll('a,button,input,select,textarea,.sc,.tc,.ci,.pill').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{c.classList.add('expand');r.classList.add('expand');});
+    el.addEventListener('mouseleave',()=>{c.classList.remove('expand');r.classList.remove('expand');});
+  });
+})();
+
+/* ─ NAV SCROLL ─ */
+(function(){
+  const nav=document.getElementById('nav');
+  window.addEventListener('scroll',()=>nav.classList.toggle('stuck',scrollY>55),{passive:true});
+})();
+
+/* ─ HAMBURGER ─ */
+(function(){
+  const btn=document.getElementById('burger'),links=document.getElementById('navLinks');
+  if(!btn||!links)return;
+  btn.addEventListener('click',()=>{
+    const o=links.classList.toggle('open');btn.classList.toggle('x',o);document.body.style.overflow=o?'hidden':'';
+  });
+  links.querySelectorAll('.nav-a').forEach(l=>l.addEventListener('click',()=>{links.classList.remove('open');btn.classList.remove('x');document.body.style.overflow='';}));
+})();
+
+/* ─ REVEAL ON SCROLL ─ */
+(function(){
+  const els=document.querySelectorAll('.reveal');
+  els.forEach(el=>{const d=el.getAttribute('data-delay')||0;el.style.transitionDelay=d+'ms';});
+  const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}}),{threshold:.08,rootMargin:'0px 0px -30px 0px'});
+  els.forEach(el=>obs.observe(el));
+})();
+
+/* ─ COUNTERS ─ */
+(function(){
+  const obs=new IntersectionObserver(entries=>entries.forEach(e=>{
+    if(!e.isIntersecting)return;
+    const el=e.target,target=parseInt(el.getAttribute('data-count'));
+    let n=0;const step=Math.ceil(target/(1600/16));
+    const t=setInterval(()=>{n+=step;if(n>=target){el.textContent=target.toLocaleString();clearInterval(t);}else el.textContent=n.toLocaleString();},16);
+    obs.unobserve(el);
+  }),{threshold:.5});
+  document.querySelectorAll('[data-count]').forEach(c=>obs.observe(c));
+})();
+
+/* ─ ACTIVE NAV ─ */
+(function(){
+  const secs=document.querySelectorAll('section[id]'),links=document.querySelectorAll('.nav-a[href^="#"]');
+  function set(){const sy=scrollY+130;let cur='';secs.forEach(s=>{if(s.offsetTop<=sy)cur=s.id;});links.forEach(l=>{l.style.color='';if(l.getAttribute('href').slice(1)===cur)l.style.color='var(--gold)';});}
+  window.addEventListener('scroll',set,{passive:true});set();
+})();
+
+/* ─ SMOOTH SCROLL ─ */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(!t)return;e.preventDefault();
+    window.scrollTo({top:t.getBoundingClientRect().top+scrollY-(document.getElementById('nav')?.offsetHeight||0),behavior:'smooth'});
+  });
+});
+
+/* ─ MARQUEE DOUBLE ─ */
+(function(){const t=document.querySelector('.mq-track');if(t)t.innerHTML+=t.innerHTML;})();
+
+/* ─ BACK TO TOP ─ */
+(function(){
+  const b=document.getElementById('btt');
+  window.addEventListener('scroll',()=>b.classList.toggle('show',scrollY>400),{passive:true});
+  b.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+})();
+
+/* ─ TEXT SCRAMBLE on hero title ─ */
+(function(){
+  const el=document.querySelector('.hero-title');
+  if(!el)return;
+  const orig=el.innerText;
+  const chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let frame=0;
+  function scramble(){
+    el.innerText=orig.split('').map((c,i)=>{
+      if(c==='\n')return '\n';
+      if(c===' ')return ' ';
+      if(frame/2>i)return c;
+      return chars[Math.floor(Math.random()*chars.length)];
+    }).join('');
+    frame++;
+    if(frame<orig.replace(/\n/g,'').length*2+10)requestAnimationFrame(scramble);
+    else el.innerHTML=el.innerHTML; // reset
+  }
+  setTimeout(scramble,2200);
+})();
+
+/* ─ CONTACT FORM ─ */
+(function(){
+  const form=document.getElementById('cform'),suc=document.getElementById('fsuccess');
+  if(!form)return;
+  form.addEventListener('submit',e=>{
+    e.preventDefault();
+    const btn=form.querySelector('.btn');
+    btn.textContent='Sending...';btn.style.opacity='.6';btn.disabled=true;
+    emailjs.send('service_tmvpo6h','template_661buyh',{
+      from_name:document.getElementById('name').value,
+      from_email:document.getElementById('email').value,
+      event_type:document.getElementById('event').value,
+      message:document.getElementById('msg').value,
+    }).then(()=>{
+      btn.textContent='✅ Sent!';btn.style.opacity='1';
+      if(suc)suc.classList.add('show');form.reset();
+      setTimeout(()=>{btn.textC
